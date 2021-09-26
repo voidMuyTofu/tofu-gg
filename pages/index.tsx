@@ -1,16 +1,19 @@
 import styles from '../styles/Home.module.css'
 import { useInput } from '../lib/hooks'
 import { getSummonerByName } from '../lib/apiFunctions'
-import { useState } from 'react';
+import { UserInfo } from '../interfaces/UserInfo';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const summonerName = useInput("");
   const region = useInput("euw1");
-  const [summonerInfo, setSummonerInfo] = useState("");
+  const [summonerInfo, setSummonerInfo] = useState<UserInfo>({ accountid: "", id: "", name: "", profileIconId: "", puuid: "", revisionDate: "", summonerLevel: "" });
 
-  const getSummonerInfo = async (summonerName: string, region: string) => {
-    const info = await getSummonerByName(summonerName, region).then(() => console.log(info));
-    
+  const getSummonerInfo = () => {
+    getSummonerByName(summonerName.value, region.value).then((data) => {
+      setSummonerInfo(data);
+      console.log(data);
+    });
   }
 
   return (
@@ -28,7 +31,15 @@ export default function Home() {
           <option value="ru">RU</option>
           <option value="tr1">TUR</option>
         </select>
-        <button onClick={() => getSummonerInfo(summonerName.value, region.value)}>Buscar</button>
+        <button onClick={getSummonerInfo}>Buscar</button>
+        {summonerInfo.id &&
+          <>
+            <h1>Bienvenido {summonerInfo.name}</h1>
+        
+            <img src={`http://ddragon.leagueoflegends.com/cdn/11.19.1/img/profileicon/${summonerInfo.profileIconId}.png`} height="100" width="100"></img>
+            <p>Nivel : {summonerInfo.summonerLevel}</p>
+          </>
+        }
       </div>
     </div>
   )

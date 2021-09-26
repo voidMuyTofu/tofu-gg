@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState } from "react";
+import { UserInfo } from "../interfaces/UserInfo";
 
-export const useInput = (initialValue : string) => {
-    const [value, setValue] = useState(initialValue);
+export const useInput = (_initialValue: string) =>{
+    const [value, setValue] = useState(_initialValue);
 
-    const handleChange = (e : any) => {
-        setValue(e.target.value);
+    const handleChange= (event : any) =>{
+        setValue(event.target.value);
     }
 
     return{
