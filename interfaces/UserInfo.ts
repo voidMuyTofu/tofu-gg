@@ -1,4 +1,4 @@
-export interface UserInfo {
+export interface UserInfo { 
     accountid: string,
     id: string,
     name: string,
